@@ -1,25 +1,38 @@
 import React, { useState } from "react";
 
 export default function Log() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [formData, setFormData] = useState({ title: "", description: "" });
 
   function handleClick() {
-    console.log(title, description);
+    console.log(formData);
+  }
+
+  function handleChange(event) {
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: event.target.value,
+      };
+    });
   }
 
   return (
     <section className="hero">
-      <h1 className="hero--header">{title}</h1>
+      <input
+        className="hero--input input"
+        type="text"
+        placeholder="Title"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+      />
       <textarea
         rows={3}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        className="hero--textarea input"
+        placeholder="Description"
+        value={formData.description}
+        name="description"
+        onChange={handleChange}
       />
       <button onClick={handleClick}>Submit</button>
     </section>
