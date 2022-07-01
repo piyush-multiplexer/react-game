@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 
 export default function Log() {
-  const [formData, setFormData] = useState({ title: "", description: "" });
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    isPrivate: false,
+  });
 
-  function handleClick() {
+  function handleClick(event) {
+    event.preventDefault();
     console.log(formData);
   }
 
   function handleChange(event) {
+    const { name, value, type, checked } = event.target;
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        [event.target.name]: event.target.value,
+        [name]: type === "checkbox" ? checked : value,
       };
     });
   }
@@ -23,7 +29,7 @@ export default function Log() {
         type="text"
         placeholder="Title"
         name="title"
-        value={formData.title}
+        value={formData.title} // controlled input
         onChange={handleChange}
       />
       <textarea
@@ -34,6 +40,16 @@ export default function Log() {
         name="description"
         onChange={handleChange}
       />
+      <div>
+        <input
+          id="isPrivate"
+          type="checkbox"
+          checked={formData.isPrivate}
+          name="isPrivate"
+          onChange={handleChange}
+        />
+        <label htmlFor="isPrivate">Keeep this Private?</label>
+      </div>
       <button onClick={handleClick}>Submit</button>
     </section>
   );
